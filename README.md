@@ -23,5 +23,3 @@ python main.py  markdown_file.md
 ```
 
 Text for revert commit to be done
-
-unnecessary text
