@@ -1,4 +1,5 @@
 import sys
+import argparse
 
 def convert_to_html(markdown_text: str):
 
@@ -118,8 +119,6 @@ def convert_to_html(markdown_text: str):
                 sys.exit(1)
 
         elif(markdown_text[counter] == "`" and markdown_text[counter + 1] == "`" and  markdown_text[counter + 2] == "`"):
-
-            print("i`m in ``` backtics text ")
             new_text += "<pre>"
             counter += 3;
 
@@ -241,9 +240,6 @@ def convert_to_html(markdown_text: str):
 
 def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_index: int, last_index: int):
 
-
-    print(list_of_contained_symbols)
-
     first, second, third = list_of_contained_symbols;
     first = list_of_contained_symbols[0];
     len_of_largest_format_symbol = len(third);
@@ -254,10 +250,6 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
 
     if(first_symbol != last_symbol):
         return False
-
-    first_two_symbol_index = - 1
-    first_three_symbol_index = -1
-
 
     last_two_symbol = ""
     last_three_symbol = ""
@@ -270,7 +262,6 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
         if(first_three_symbol in list_of_contained_symbols):
             for symbol in list_of_contained_symbols:
                 if(symbol == first_three_symbol):
-                    first_three_symbol_index = list_of_contained_symbols.index(symbol)
                     last_three_symbol = first_three_symbol
 
 
@@ -280,7 +271,6 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
         if(first_two_symbol in list_of_contained_symbols):
             for symbol in list_of_contained_symbols:
                 if(symbol == first_two_symbol):
-                    first_two_symbol_index = list_of_contained_symbols.index(symbol)
                     last_two_symbol = first_two_symbol
 
     
@@ -328,7 +318,7 @@ def FindTextInRow(text: str, start_counter):
 
 def read_file(input_path):
     try:
-        with open(input_path, 'r', encoding='utf-8') as file:
+        with open(input_path, 'r') as file:
             return file.read()
     except FileNotFoundError as e:
         print(f"Error: {e}", file=sys.stderr)
@@ -339,7 +329,7 @@ def read_file(input_path):
 
 def save_to_file(html_text, output_path):
     try:
-        with open(output_path, 'w', encoding='utf-8') as file:
+        with open(output_path, 'w') as file:
             file.write(html_text)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
@@ -349,19 +339,19 @@ def save_to_file(html_text, output_path):
 
 if __name__ == "__main__":
 
-    argv_len = len(sys.argv)
+    parser = argparse.ArgumentParser(description='Convert Markdown to HTML')
+    parser.add_argument('markdown_file', metavar='markdown_file', type=str, help='Path to the input Markdown file')
+    parser.add_argument('--out', dest='output_file', type=str, required=False, help='Path to the output HTML file')
+    args = parser.parse_args()
 
-    if (argv_len < 2  or argv_len > 3):
-        print("Invalid amount of parametrs", file=sys.stderr)
-        sys.exit(1)
 
-    input_file = sys.argv[1]
+    input_file = args.markdown_file
     markdown_text = read_file(input_file)
     html_text = convert_to_html(markdown_text)
 
 
-    if (argv_len == 3):
-        output_file = sys.argv[2]
+    if args.output_file:
+        output_file = args.output_file
         save_to_file(html_text, output_file)
         print(f"File was successfuly converted to HTML and saved to {output_file}")
     else:
