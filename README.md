@@ -22,4 +22,4 @@ python main.py  markdown_file.md --out  html_file.html
 python main.py  markdown_file.md
 ```
 
-Text for revert commit to be done
+### [Link to Revert commit](https://github.com/Moriartymath/Lab-1/commit/7aaf515fb43e983341ba2e3694d1f94d04f97c91) - 7aaf515fb43e983341ba2e3694d1f94d04f97c91
