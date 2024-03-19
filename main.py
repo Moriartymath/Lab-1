@@ -8,7 +8,7 @@ def convert_to_html(markdown_text: str):
     while(counter < len(markdown_text)):
 
         if (counter + 2 == len(markdown_text)):
-            return new_text
+            break;
     
 
         if(markdown_text[counter] == "*" and markdown_text[counter + 1] == "*"):
@@ -53,7 +53,8 @@ def convert_to_html(markdown_text: str):
                     counter += 2
 
                     if(counter == len(markdown_text)):
-                        return new_text
+                        break;
+
             else:
                 print("Invalid formating: no space symbol is allowed right after \'**\'", file=sys.stderr)
                 sys.exit(1)
@@ -111,7 +112,7 @@ def convert_to_html(markdown_text: str):
                     new_text += "</i>"
                     counter += 1
                     if(counter == len(markdown_text)):
-                        return new_text
+                        break;
             else:
                 print("Invalid formating: no space is allowed right after \'_\'", file=sys.stderr)
                 sys.exit(1)
@@ -154,7 +155,7 @@ def convert_to_html(markdown_text: str):
                     sys.exit(1)
 
                 if(counter == len(markdown_text)):
-                    return new_text
+                    break;
 
         elif(markdown_text[counter] == "`"):
             new_text += "<tt>"
@@ -200,8 +201,6 @@ def convert_to_html(markdown_text: str):
         else:
             forbiden_format = ["`", "_", "**", "```"]
 
-            print("hello")
-
             while(markdown_text[counter: counter + 2] != forbiden_format[-1] 
                 and markdown_text[counter: counter + 1] != forbiden_format[-2] 
                 and markdown_text[counter] not in forbiden_format[1:2]):
@@ -219,16 +218,26 @@ def convert_to_html(markdown_text: str):
 
             continue
         if(counter == len(markdown_text)):
-            return new_text
-        
+            break;
+
         while(markdown_text[counter] == " " or markdown_text[counter] == "\n" or markdown_text[counter] == "\t"):
             new_text += markdown_text[counter]
             counter += 1
             
             if(counter == len(markdown_text)):
-                return new_text
+                break;
 
-    return new_text
+    
+    sliced_text = new_text.split("\n\n")
+    
+    html_text: str = ""
+
+    for i in sliced_text:
+        i = "<p>" + i + "</p>"
+        html_text += i
+
+    return html_text
+
 
 def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_index: int, last_index: int):
 
@@ -349,6 +358,7 @@ if __name__ == "__main__":
     input_file = sys.argv[1]
     markdown_text = read_file(input_file)
     html_text = convert_to_html(markdown_text)
+
 
     if (argv_len == 3):
         output_file = sys.argv[2]
