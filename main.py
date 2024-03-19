@@ -17,19 +17,15 @@ def convert_to_html(markdown_text: str):
             first_index = counter;
             if(counter >= len(markdown_text)):
                 print("Incorect formating out of range", file=sys.stderr)
-                #print(new_text);
-                #print(counter)
                 sys.exit(1)
             if(markdown_text[counter] != ' '):
                 if(markdown_text[counter] == "*" and markdown_text[counter + 1] == "*"):
                     new_text += "</b>"
                     counter += 2
                 else:
-                    #print("hello")
                     while(markdown_text[counter] != "*" or markdown_text[counter + 1] != "*"):
 
                         new_text += markdown_text[counter]
-                        #print(new_text)
                         counter += 1
 
                         
@@ -66,39 +62,33 @@ def convert_to_html(markdown_text: str):
         elif(markdown_text[counter] == "_"):
             new_text += "<i>"
             counter += 1;
+            first_index = counter;
             if(counter >= len(markdown_text)):
                 print("Incorrect formating: out of range", file=sys.stderr)
-               # print(new_text);
-               # print(counter)
                 sys.exit(1)
             if(markdown_text[counter] != ' '):
                 if(markdown_text[counter] == "_"):
                     new_text += "</i>"
                     counter += 1
                 else:
-                    #print("hello")
                     IsSnakeCase = False
                     IsEndOfString = False
                     while(markdown_text[counter] != "_" or IsSnakeCase):
 
                         new_text += markdown_text[counter]
-                        #print(new_text)
                         counter += 1
                         
                         if(len(markdown_text) <= counter):
                             IsEndOfString = True
                             break
 
-                        #print(counter)
                         if(len(markdown_text) -  1 == counter):
                             continue;
                         
                         if(markdown_text[counter] == "_" and markdown_text[counter - 1].isalpha() and markdown_text[counter + 1].isalpha()):
                             IsSnakeCase = True
-                            #print("IsSnakeCase")
                         else:
                             IsSnakeCase = False
-                            #print("IsNOTSnakeCase")
 
                     if(IsEndOfString):
                         print("Invalid formating: there is no \'_\' at the end", file=sys.stderr)
@@ -107,10 +97,19 @@ def convert_to_html(markdown_text: str):
                     if(markdown_text[counter - 1] == " "):
                         print("Invalid formating: no space symbol is allowed right before \'_\'", file=sys.stderr)
                         sys.exit(1)
+
+
+                    last_index = counter - 1;
+
+                    
+                    Contain_Nested_Formating = IsContainNestedFormating(markdown_text,['`','**','```'], first_index, last_index)
+
+                    if(Contain_Nested_Formating):
+                        print("Invalid formating: contain nested formating is not allowed", file=sys.stderr)
+                        sys.exit(1)
+
                     new_text += "</i>"
                     counter += 1
-                   # print(new_text)
-
                     if(counter == len(markdown_text)):
                         return new_text
             else:
@@ -118,53 +117,51 @@ def convert_to_html(markdown_text: str):
                 sys.exit(1)
 
         elif(markdown_text[counter] == "`" and markdown_text[counter + 1] == "`" and  markdown_text[counter + 2] == "`"):
+
             print("i`m in ``` backtics text ")
             new_text += "<pre>"
             counter += 3;
+
+            if(FindTextInRow(markdown_text, counter)):
+                print("Incorect formating: it`s not allowed to have any symbols on the same line with \'```\' ", file=sys.stderr)
+                sys.exit(1)
            
             if(counter >= len(markdown_text)):
                 print("Incorect formating out of range", file=sys.stderr)
-                #print(new_text);
-                #print(counter)
                 sys.exit(1)
-            if(markdown_text[counter] != ' '):
-                if(markdown_text[counter] == "`" and markdown_text[counter + 1] == "`" and  markdown_text[counter + 2] == "`"):
-                    new_text += "</pre>"
-                    counter += 3
-                else:
-                    #print("hello")
-                    
-                    while(markdown_text[counter] != "`" or markdown_text[counter + 1] != "`" or  markdown_text[counter + 2] != "`"):
 
-                        new_text += markdown_text[counter]
-                        counter += 1
+            if(markdown_text[counter] == "`" and markdown_text[counter + 1] == "`" and  markdown_text[counter + 2] == "`"):
+                new_text += "</pre>"
+                counter += 3
+            else:           
+                while(markdown_text[counter] != "`" or markdown_text[counter + 1] != "`" or  markdown_text[counter + 2] != "`"):
+
+                    new_text += markdown_text[counter]
+                    counter += 1
 
                         
-                        if(len(markdown_text)  <= counter + 2):
-                            print("Invalid formating there is no \'```\' at the end", file=sys.stderr)
-                            sys.exit(1)
-
-                    print(new_text)
-                    if(markdown_text[counter - 1] == " "):
-                        print("Invalid formating: no space symbol is allowed right before \'```\'asdasdasdas", file=sys.stderr)
+                    if(len(markdown_text)  <= counter + 2):
+                        print("Invalid formating there is no \'```\' at the end", file=sys.stderr)
                         sys.exit(1)
-                    new_text += "</pre>"
-                    counter += 3
-                   # print(new_text)
+       
 
-                    if(counter == len(markdown_text)):
-                        return new_text
-            else:
-                print("Invalid formating: no space symbol is allowed right after \'```\'", file=sys.stderr)
-                sys.exit(1)
+                new_text += "</pre>"
+                counter += 3
+
+                
+                if(FindTextInRow(markdown_text, counter)):
+                    print("Incorect formating: it`s not allowed to have any symbols on the same line with \'```\' ", file=sys.stderr)
+                    sys.exit(1)
+
+                if(counter == len(markdown_text)):
+                    return new_text
 
         elif(markdown_text[counter] == "`"):
             new_text += "<tt>"
             counter += 1;
+            first_index = counter;
             if(counter >= len(markdown_text)):
                 print("Incorrect formating: out of range", file=sys.stderr)
-               # print(new_text);
-               # print(counter)
                 sys.exit(1)
             if(markdown_text[counter] != ' '):
                 if(markdown_text[counter] == "`"):
@@ -172,14 +169,10 @@ def convert_to_html(markdown_text: str):
                     counter += 1
                 else:
                     IsEndOfString = False;
-                    #print(IsEndOfString)
                     while(markdown_text[counter] != "`"):
 
                         new_text += markdown_text[counter]
-                       # print(new_text)
                         counter += 1
-                        #print(counter)
-
                         
                         if(len(markdown_text) == counter):
                             IsEndOfString = True
@@ -191,19 +184,22 @@ def convert_to_html(markdown_text: str):
                     if(markdown_text[counter - 1] == " "):
                         print("Invalid formating: no space symbol is allowed right before \'`\'", file=sys.stderr)
                         sys.exit(1)
+
+                    last_index = counter - 1;
+
+                    Contain_Nested_Formating = IsContainNestedFormating(markdown_text,['_','**','```'], first_index, last_index)
+
+                    if(Contain_Nested_Formating):
+                        print("Invalid formating: contain nested formating is not allowed", file=sys.stderr)
+                        sys.exit(1)
+
                     new_text += "</tt>"
                     counter += 1
-                    #print("out_of_while")
-
                     if(counter == len(markdown_text)):
                         return new_text
             else:
                 print("Invalid formating: no space is allowed right after \'`\'", file=sys.stderr)
-                sys.exit(1)
-
-           # print("out of monospace")
-            #print(new_text)
-                
+                sys.exit(1)            
 
         if(counter == len(markdown_text)):
             return new_text
@@ -219,7 +215,6 @@ def convert_to_html(markdown_text: str):
 
 def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_index: int, last_index: int):
 
-    list_of_contained_symbols.sort();
 
     print(list_of_contained_symbols)
 
@@ -236,27 +231,88 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
     if(first_symbol != last_symbol):
         return False
 
-    two_symbols_format = ""
-    three_symbols_format = ""
-    if(len_of_largest_format_symbol == 3):
-        two_symbols_format = text[first_index:first_index + len_of_largest_format_symbol - 1];
-    elif(len_of_largest_format_symbol == 2):
-        three_symbols_format = text[first_index:first_index + len_of_largest_format_symbol - 1];
-    
-    print(list_of_contained_symbols[0])
+    first_two_symbol_index = - 1
+    first_three_symbol_index = -1
+
+    print(text[first_index:first_index + len_of_largest_format_symbol - 1]);
+
+    last_two_symbol = ""
+    last_three_symbol = ""
+
     
 
-    if(first_symbol == first):
+    if(len(third) == 3):
+        first_three_symbol = text[first_index:first_index + len_of_largest_format_symbol]
+
+        if(first_three_symbol in list_of_contained_symbols):
+            for symbol in list_of_contained_symbols:
+                if(symbol == first_three_symbol):
+                    first_three_symbol_index = list_of_contained_symbols.index(symbol)
+                    last_three_symbol = first_three_symbol
+
+
+    if(len(second) == 2 or len(third) == 2):
+        print("tho forbiden symbols")
+        first_two_symbol = text[first_index:first_index + len_of_largest_format_symbol - 1]
+        print(first_two_symbol)
+
+        if(first_two_symbol in list_of_contained_symbols):
+            print("in first two symbol")
+            for symbol in list_of_contained_symbols:
+                if(symbol == first_two_symbol):
+                    print("found symbols")
+                    first_two_symbol_index = list_of_contained_symbols.index(symbol)
+                    last_two_symbol = first_two_symbol
+
+    
+
+    print(text[last_index - 1: last_index + 1])
+
+    print(last_two_symbol)
+    if(first_symbol == first and last_symbol == first or first_symbol == second and last_symbol == second):
         print("first")
         return True
-    elif(first_symbol == second and last_symbol == second):
+    elif(last_two_symbol == text[last_index - 1: last_index + 1]):
         print("second")
         return True 
-    elif (first_symbol == third and last_symbol == third):
+    elif (last_three_symbol == text[last_index - 3: last_index]):
         print("thirds")
-        result = True;
+        return True;
 
     return False;
+
+def FindTextInRow(text: str, start_counter):
+
+    print(start_counter,"\n")
+    print(len(text))
+    length = len(text);
+
+    IsBeginningOfText =  start_counter == 3;
+
+    allowed_symbol = "\n"
+    print("in find text")
+    if(IsBeginningOfText):
+        print("in first if")
+        if(text[start_counter] == allowed_symbol):
+            return False
+        else:
+            return True
+    else:
+        lenght_of_format = len("```")
+        IsAnyTextBehind = text[start_counter - (lenght_of_format + 1)] == "\n"
+        IsAnyTextAfter = start_counter != length;
+
+        if(IsAnyTextBehind):
+            if(IsAnyTextAfter):
+                if(text[start_counter] != allowed_symbol):
+                    return True
+                else:
+                    return False
+        else:
+            return True
+
+    return False
+
 
 def read_file(input_path):
     try:
