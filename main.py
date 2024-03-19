@@ -197,10 +197,27 @@ def convert_to_html(markdown_text: str):
                     counter += 1
                     if(counter == len(markdown_text)):
                         return new_text
-            else:
-                print("Invalid formating: no space is allowed right after \'`\'", file=sys.stderr)
-                sys.exit(1)            
+        else:
+            forbiden_format = ["`", "_", "**", "```"]
 
+            print("hello")
+
+            while(markdown_text[counter: counter + 2] != forbiden_format[-1] 
+                and markdown_text[counter: counter + 1] != forbiden_format[-2] 
+                and markdown_text[counter] not in forbiden_format[1:2]):
+                    
+                new_text += markdown_text[counter]
+                counter += 1
+                print(counter)
+
+                if(counter + 3 >= len(markdown_text)):
+                    while(counter < len(markdown_text)):
+                        new_text += markdown_text[counter]
+                        counter += 1
+
+                    return new_text;
+
+            continue
         if(counter == len(markdown_text)):
             return new_text
         
@@ -220,21 +237,18 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
 
     first, second, third = list_of_contained_symbols;
     first = list_of_contained_symbols[0];
-    print(first)
     len_of_largest_format_symbol = len(third);
 
     first_symbol = text[first_index]
     last_symbol = text[last_index]
 
 
-    print(f"\n {first_symbol} , {last_symbol}")
     if(first_symbol != last_symbol):
         return False
 
     first_two_symbol_index = - 1
     first_three_symbol_index = -1
 
-    print(text[first_index:first_index + len_of_largest_format_symbol - 1]);
 
     last_two_symbol = ""
     last_three_symbol = ""
@@ -252,15 +266,11 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
 
 
     if(len(second) == 2 or len(third) == 2):
-        print("tho forbiden symbols")
         first_two_symbol = text[first_index:first_index + len_of_largest_format_symbol - 1]
-        print(first_two_symbol)
 
         if(first_two_symbol in list_of_contained_symbols):
-            print("in first two symbol")
             for symbol in list_of_contained_symbols:
                 if(symbol == first_two_symbol):
-                    print("found symbols")
                     first_two_symbol_index = list_of_contained_symbols.index(symbol)
                     last_two_symbol = first_two_symbol
 
@@ -270,29 +280,22 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
 
     print(last_two_symbol)
     if(first_symbol == first and last_symbol == first or first_symbol == second and last_symbol == second):
-        print("first")
         return True
     elif(last_two_symbol == text[last_index - 1: last_index + 1]):
-        print("second")
         return True 
     elif (last_three_symbol == text[last_index - 3: last_index]):
-        print("thirds")
         return True;
 
     return False;
 
 def FindTextInRow(text: str, start_counter):
 
-    print(start_counter,"\n")
-    print(len(text))
     length = len(text);
 
     IsBeginningOfText =  start_counter == 3;
 
     allowed_symbol = "\n"
-    print("in find text")
     if(IsBeginningOfText):
-        print("in first if")
         if(text[start_counter] == allowed_symbol):
             return False
         else:
