@@ -34,7 +34,7 @@
 
 - **_Optional argument_** if present the result of executing program will be in HTML format otherwise in ANSI: **Specify the format of resulting text**
 
-## Example of using:
+## Examples of using:
 
 - ### **With Optional argument**
 
