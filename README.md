@@ -58,6 +58,14 @@
 
   - **The result will be in ANSI format in the output of console**
 
+## Tests :
+
+### **To run all tests use following command**
+
+- ```console
+  python -m unittest test_main.py
+  ```
+
 ### [Link to Revert commit](https://github.com/Moriartymath/Lab-1/commit/eca9676a1811f25032f47c6fdc7d429cf8d10479) - eca9676a1811f25032f47c6fdc7d429cf8d10479
 
 ### [Link to CI test failure](https://github.com/Moriartymath/Lab-1/commit/7626db716b5ab3a7357bb729235f58867692a410) - 7626db716b5ab3a7357bb729235f58867692a410
