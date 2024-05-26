@@ -59,3 +59,9 @@
   - **The result will be in ANSI format in the output of console**
 
 ### [Link to Revert commit](https://github.com/Moriartymath/Lab-1/commit/eca9676a1811f25032f47c6fdc7d429cf8d10479) - eca9676a1811f25032f47c6fdc7d429cf8d10479
+
+### [Link to CI test failure](https://github.com/Moriartymath/Lab-1/commit/7626db716b5ab3a7357bb729235f58867692a410) - 7626db716b5ab3a7357bb729235f58867692a410
+
+## My thoughts about CI and unit tests
+
+**In my opinion unit tests along with CI is really powerfull and convinient tools to keep track of your application`s stabillity on every step.It`s specially true for big projects due to automatization of all processes provided by CI.**
