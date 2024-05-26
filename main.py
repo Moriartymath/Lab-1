@@ -207,7 +207,6 @@ def convert_to_html(markdown_text: str):
                     
                 new_text += markdown_text[counter]
                 counter += 1
-                print(counter)
 
                 if(counter + 3 >= len(markdown_text)):
                     while(counter < len(markdown_text)):
@@ -276,9 +275,7 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
 
     
 
-    print(text[last_index - 1: last_index + 1])
 
-    print(last_two_symbol)
     if(first_symbol == first and last_symbol == first or first_symbol == second and last_symbol == second):
         return True
     elif(last_two_symbol == text[last_index - 1: last_index + 1]):
@@ -323,10 +320,10 @@ def read_file(input_path):
             return file.read()
     except FileNotFoundError as e:
         print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
+        raise FileNotFoundError
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
+        return None
 
 def save_to_file(html_text, output_path):
     try:
@@ -334,7 +331,7 @@ def save_to_file(html_text, output_path):
             file.write(html_text)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
+        return None
 
 
 def convertToAnsi(html_text):
