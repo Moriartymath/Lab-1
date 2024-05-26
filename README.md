@@ -56,6 +56,6 @@
   python main.py  markdown_file.md
   ```
 
-  - **The result will be in HTML(mistake) format in the output of console**
+  - **The result will be in ANSI format in the output of console**
 
-### [Link to Revert commit](https://github.com/Moriartymath/Lab-1/commit/e09040369e38e7443fd29d60dd7a216999cb0438) - e09040369e38e7443fd29d60dd7a216999cb0438
+### [Link to Revert commit](https://github.com/Moriartymath/Lab-1/commit/eca9676a1811f25032f47c6fdc7d429cf8d10479) - eca9676a1811f25032f47c6fdc7d429cf8d10479
