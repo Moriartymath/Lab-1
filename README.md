@@ -8,6 +8,18 @@
 
 ## Requirements: Python 3.X version
 
+## To clone repository
+
+```console
+ git clone https://github.com/Moriartymath/Lab_1_2.git
+```
+
+## To run application :
+
+- Clone repository.
+- Open folder with application.
+- Open terminal and run commands described in the next section.
+
 ## Input parameterts :
 
 - **_Required argument_** (first parameter) : Path to the input Markdown file
