@@ -8,6 +8,18 @@
 
 ## Requirements: Python 3.X version
 
+## To clone repository
+
+```console
+ git clone https://github.com/Moriartymath/Lab_1_2.git
+```
+
+## To run application :
+
+- Clone repository.
+- Open folder with application.
+- Open terminal and run commands described in the next section.
+
 ## Input parameterts :
 
 - **_Required argument_** (first parameter) : Path to the input Markdown file
@@ -57,6 +69,14 @@
   ```
 
   - **The result will be in ANSI format in the output of console**
+
+## Tests :
+
+### **To run all tests use following command**
+
+- ```console
+  python -m unittest test_main.py
+  ```
 
 ### [Link to Revert commit](https://github.com/Moriartymath/Lab-1/commit/eca9676a1811f25032f47c6fdc7d429cf8d10479) - eca9676a1811f25032f47c6fdc7d429cf8d10479
 
