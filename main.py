@@ -1,3 +1,4 @@
+import re
 import sys
 import argparse
 
@@ -336,19 +337,41 @@ def save_to_file(html_text, output_path):
         sys.exit(1)
 
 
+def convertToAnsi(html_text):
+    replacements = {
+        '<b>': '\033[1m', '</b>': '\033[0m',
+        '<i>': '\033[3m', '</i>': '\033[0m',
+        '<tt>': '\033[2m', '</tt>': '\033[0m',
+        '<pre>': '\033[4m', '</pre>': '\033[0m',
+        '<p>': '', '</p>': '\n\n'
+    }
+
+    ansi_text = html_text
+    for html_tag, ansi_code in replacements.items():
+        ansi_text = ansi_text.replace(html_tag, ansi_code)
+
+    # Видаляємо зайві нові рядки після </pre> та <>
+    ansi_text = re.sub(r'\033\[0m\s*\n\s*\n', '\033[0m\n\n', ansi_text)
+
+    
+    return ansi_text.strip()
+
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Convert Markdown to HTML')
     parser.add_argument('markdown_file', metavar='markdown_file', type=str, help='Path to the input Markdown file')
     parser.add_argument('--out', dest='output_file', type=str, required=False, help='Path to the output HTML file')
-    args = parser.parse_args()
+    parser.add_argument('--format', metavar='format_of_str', type=str, help='type of format',required=False)
 
+    args = parser.parse_args()
 
     input_file = args.markdown_file
     markdown_text = read_file(input_file)
     html_text = convert_to_html(markdown_text)
 
+    if (args.format): 
+        print(convertToAnsi(html_text))
 
     if args.output_file:
         output_file = args.output_file
