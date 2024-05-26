@@ -58,4 +58,6 @@
 
   - **The result will be in HTML(mistake) format in the output of console**
 
+  - Added redundant text for revert commit
+
 ### [Link to Revert commit](https://github.com/Moriartymath/Lab-1/commit/e09040369e38e7443fd29d60dd7a216999cb0438) - e09040369e38e7443fd29d60dd7a216999cb0438
