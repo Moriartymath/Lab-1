@@ -265,7 +265,7 @@ def IsContainNestedFormating(text: str, list_of_contained_symbols: list, first_i
                     last_three_symbol = first_three_symbol
 
 
-    if(len(second) == 2 or len(third) == 2):
+    if(len(second) == 4 or len(third) == 4):
         first_two_symbol = text[first_index:first_index + len_of_largest_format_symbol - 1]
 
         if(first_two_symbol in list_of_contained_symbols):
